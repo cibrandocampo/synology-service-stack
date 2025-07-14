@@ -14,13 +14,14 @@ All services are modular and include:
 
 ## Included Services
 
-| Service               | Description                                                    | Folder            |
-|-----------------------|----------------------------------------------------------------|-------------------|
+| Service               | Description                                                    | Folder              |
+|-----------------------|----------------------------------------------------------------|---------------------|
 | **NGINX**             | Lightweight web server for serving static websites.            | [`nginx`](./nginx) |
 | **OpenSpeedTest**     | Self-hosted network speed test interface.                      | [`speedtest`](./speedtest) |
 | **WordPress + MariaDB** | Complete WordPress stack with database support.              | [`wordpress`](./wordpress) |
 | **UniFi Controller**  | Network management interface for UniFi devices.                | [`unifi`](./unifi) |
 | **Pi-hole**           | Network-wide DNS filtering and ad blocking.                    | [`pihole`](./pihole) |
+| **OVH DynDNS Client** | Public IP updater for OVH-managed DNS domains.                 | [`dyndns`](./dyndns) |
 
 ---
 
@@ -46,6 +47,7 @@ synology-service-stack/
 ├── speedtest/
 ├── unifi/
 ├── wordpress/
+├── dyndns/
 └── README.md
 
 ```
