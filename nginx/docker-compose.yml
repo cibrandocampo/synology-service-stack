@@ -1,0 +1,24 @@
+version: "3"
+services:
+  webserver:
+    image: nginx:${NGINX_VERSION:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
+    restart: always
+    networks:
+      - nginx
+    ports:
+      - "${NGINX_HTTP_PORT:-9080}:80/tcp"
+    volumes:
+      - nginx-data:/usr/share/nginx/html
+
+volumes:
+  nginx-data:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "${NGINX_DATA_VOLUME_PATH}"
+
+networks:
+  nginx:
+    driver: bridge

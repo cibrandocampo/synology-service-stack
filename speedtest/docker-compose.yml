@@ -1,0 +1,17 @@
+version: "3"
+services:
+  speedtest:
+    image: openspeedtest/latest:${OPENSPEEDTEST_VERSION:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME}_openspeedtest
+    networks:
+      - speedtest
+    restart: always
+    environment:
+      TZ: "${TZ:-UTC}"
+    ports:
+      - "${WEB_HTTP_PORT:-3000}:3000/tcp" # Used for HTTP portal
+      - "${WEB_HTTPS_PORT:-3001}:3001/tcp" # Used for HTTPS portal
+    
+networks:
+  speedtest: 
+    driver: bridge

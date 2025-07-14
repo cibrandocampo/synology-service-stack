@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    mariadb:
+        image: mariadb:${MARIADB_VERSION:-latest}
+        container_name: ${COMPOSE_PROJECT_NAME}_mariadb
+        networks:
+            - wordpress
+        volumes:
+            - wordpress-db:/var/lib/mysql
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    wordpress:
+        image: wordpress:${WORDPRESS_VERSION:-latest}
+        container_name: ${COMPOSE_PROJECT_NAME}_wordpress
+        depends_on:
+            - mariadb
+        init: true
+        networks:
+            - wordpress
+        volumes:
+            - wordpress-data:/var/www/html/wp-content
+        environment:
+            - WORDPRESS_DB_HOST=mariadb
+            - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+            - WORDPRESS_DB_USER=${MYSQL_USER}
+            - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+            
+        ports:
+            - "${WORDPRESS_HTTP_PORT:-8080}:80/tcp"
+
+volumes:
+  wordpress-db:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "${WORDPRESS_DB_VOLUME_PATH}"
+
+  wordpress-data:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "${WORDPRESS_DATA_VOLUME_PATH}"
+
+
+networks:
+  wordpress: 
+    driver: bridge
