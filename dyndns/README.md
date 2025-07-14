@@ -17,7 +17,7 @@ All variables are defined in the `.env` file:
 
 ```env
 # Project
-PROJECT_NAME=ovh-dyndns
+COMPOSE_PROJECT_NAME=ovh-dyndns
 
 # Docker image version
 DOCKER_OVH_VERSION=2.0.0

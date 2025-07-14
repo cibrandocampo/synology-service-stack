@@ -13,7 +13,7 @@ services:
     environment:
       - FTLCONF_webserver_api_password=${WEBPASSWORD}
       - FTLCONF_LOCAL_IPV4=${FTLCONF_LOCAL_IPV4}
-      - FTLCONF_webserver_port=${WEB_PORT:-8080}
+      - FTLCONF_webserver_port=${WEB_PORT:-9003}
       - TZ=${TZ:-UTC}
     volumes:
       - pihole-data:/etc/pihole

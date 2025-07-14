@@ -7,7 +7,7 @@ services:
     networks:
       - nginx
     ports:
-      - "${NGINX_HTTP_PORT:-9080}:80/tcp"
+      - "${NGINX_HTTP_PORT:-8080}:80/tcp"
     volumes:
       - nginx-data:/usr/share/nginx/html
 

@@ -22,6 +22,7 @@ All services are modular and include:
 | **UniFi Controller**  | Network management interface for UniFi devices.                | [`unifi`](./unifi) |
 | **Pi-hole**           | Network-wide DNS filtering and ad blocking.                    | [`pihole`](./pihole) |
 | **OVH DynDNS Client** | Public IP updater for OVH-managed DNS domains.                 | [`dyndns`](./dyndns) |
+| **Vaultwarden**         | Lightweight alternative to Bitwarden for password management. | [`vaultwarden`](./vaultwarden) |
 
 ---
 
@@ -40,16 +41,15 @@ All services are modular and include:
 ## Repository Structure
 
 ```
-
 synology-service-stack/
+├── dyndns/
 ├── nginx/
 ├── pihole/
 ├── speedtest/
 ├── unifi/
+├── vaultwarden/
 ├── wordpress/
-├── dyndns/
 └── README.md
-
 ```
 
 ---
@@ -63,5 +63,3 @@ synology-service-stack/
 ---
 
 Made for Synology users who want full control of their self-hosted environment. 🧰📡  
-**Happy hosting!**
-```
