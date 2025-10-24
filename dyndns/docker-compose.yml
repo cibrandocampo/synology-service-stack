@@ -1,9 +1,10 @@
-version: "3"
+version: "3.8"
 
 services:
   ovh-dyndns-client:
     image: cibrandocampo/ovh-dyndns-client:${DOCKER_OVH_VERSION:-stable}
     container_name: ${COMPOSE_PROJECT_NAME}_dyndns-client
+    init: true
     restart: always
     env_file:
       - .env
@@ -11,6 +12,12 @@ services:
       - dyndns
     volumes:
       - ovh-hosts-config:/app/hosts.json
+    healthcheck:
+      test: ["CMD", "test", "-f", "/app/hosts.json"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 1m
 
 volumes:
   ovh-hosts-config:

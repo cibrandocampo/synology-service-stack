@@ -3,6 +3,7 @@ services:
   pihole:
     image: pihole/pihole:${PIHOLE_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_pihole
+    init: true
     cap_add:
       - CAP_NET_RAW
       - CAP_NET_BIND_SERVICE
@@ -22,6 +23,12 @@ services:
     labels:
       - com.centurylinklabs.watchtower.enable=false
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pihole", "status"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 2m
 
    
 volumes:

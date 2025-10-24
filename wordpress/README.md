@@ -4,14 +4,15 @@ This project provides a complete WordPress stack with MariaDB, ready to deploy o
 
 ## Overview
 
-- WordPress with persistent data and database volumes.
-- Easily configurable via `.env` file.
-- Designed for Synology NAS with bind-mounted volumes.
-- Default HTTP port: `9210 → 80`
+- WordPress with persistent data and database volumes
+- Health check monitoring for reliable operation
+- Easily configurable via `.env` file
+- Designed for Synology NAS with bind-mounted volumes
+- Default HTTP port: `9200 → 80`
 
 ## Configuration
 
-All environment variables are defined in the `.env` file:
+All environment variables are defined in the `.env.example` file. Copy it to `.env` and modify the values:
 
 ```env
 # Project
@@ -52,23 +53,34 @@ WORDPRESS_DATA_VOLUME_PATH=/volume1/docker/web/my-wordpress-web/volumes/wordpres
 1. Open **Container Manager** in DSM.
 2. Go to the **Projects** tab.
 3. Click **Create**.
-4. Select the path containing your `docker-compose.yml` and `.env` files.
-5. Click **Create** to launch the project.
+4. Select the path containing your `docker-compose.yml` and `.env.example` files.
+5. Copy `.env.example` to `.env` and modify the values as needed.
+6. Click **Create** to launch the project.
 
-> ⚠️ Make sure the folders defined in `WORDPRESS_DB_VOLUME_PATH` and `WORDPRESS_DATA_VOLUME_PATH` exist before deployment.
+> Make sure the folders defined in `WORDPRESS_DB_VOLUME_PATH` and `WORDPRESS_DATA_VOLUME_PATH` exist before deployment.
 
 ## Access
 
 Once deployed, access your WordPress site at:
 **[http://your-nas-ip:9210](http://your-nas-ip:9210)**
 
-## 📌 Notes
+## Health Check
 
-* Change the database passwords before deploying (`MYSQL_ROOT_PASSWORD` and `MYSQL_PASSWORD`).
-* You can modify the port by updating `WORDPRESS_HTTP_PORT` in the `.env` file.
-* The MariaDB container stores data in a persistent bind-mounted volume.
-* The WordPress container persists content from the `wp-content` directory.
+The service includes automatic health monitoring:
+
+- **Method**: WordPress login page verification using `curl -f http://localhost/wp-login.php`
+- **Interval**: 1 minute
+- **Timeout**: 30 seconds
+- **Retries**: 3 attempts
+
+## Notes
+
+- Change the database passwords before deploying (`MYSQL_ROOT_PASSWORD` and `MYSQL_PASSWORD`).
+- You can modify the port by updating `WORDPRESS_HTTP_PORT` in the `.env` file.
+- The MariaDB container stores data in a persistent bind-mounted volume.
+- The WordPress container persists content from the `wp-content` directory.
+- Health checks provide automatic monitoring and recovery.
 
 ---
 
-Create and manage your own website, blog, or project with ease! 📝🌐
+Create and manage your own website, blog, or project with ease!

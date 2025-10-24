@@ -1,8 +1,9 @@
-version: "3"
+version: "3.8"
 services:
   speedtest:
     image: openspeedtest/latest:${OPENSPEEDTEST_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_openspeedtest
+    init: true
     networks:
       - speedtest
     restart: always
@@ -11,7 +12,13 @@ services:
     ports:
       - "${WEB_HTTP_PORT:-9004}:3000/tcp" # Used for HTTP portal
       - "${WEB_HTTPS_PORT:-9005}:3001/tcp" # Used for HTTPS portal
-    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 1m
+
 networks:
   speedtest: 
     driver: bridge

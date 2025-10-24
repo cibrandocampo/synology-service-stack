@@ -4,14 +4,15 @@ This project provides a self-hosted Pi-hole DNS and ad-blocking server, ready to
 
 ## Overview
 
-- Network-wide ad blocking and DNS filtering.
-- Web UI for monitoring and configuration.
-- Uses bind-mounted volumes for persistent configuration.
-- Runs in `host` network mode to properly handle DNS resolution.
+- Network-wide ad blocking and DNS filtering
+- Web UI for monitoring and configuration
+- Health check monitoring for reliable DNS service
+- Uses bind-mounted volumes for persistent configuration
+- Runs in `host` network mode to properly handle DNS resolution
 
 ## Configuration
 
-All environment variables are defined in the `.env` file:
+All environment variables are defined in the `.env.example` file. Copy it to `.env` and modify the values:
 
 ```env
 # Project
@@ -49,23 +50,34 @@ PIHOLE_DNSMASQ_VOLUME_PATH=/volume1/docker/network/dns/volumes/pihole-dnsmasq
 1. Open **Container Manager** in DSM.
 2. Go to the **Projects** tab.
 3. Click **Create**.
-4. Select the path containing your `docker-compose.yml` and `.env` files.
-5. Click **Create** to launch the project.
+4. Select the path containing your `docker-compose.yml` and `.env.example` files.
+5. Copy `.env.example` to `.env` and modify the values as needed.
+6. Click **Create** to launch the project.
 
-> ℹ️ Ensure that the volume paths exist before deployment to avoid bind errors.
+> Ensure that the volume paths exist before deployment to avoid bind errors.
 
 ## Access
 
 * Web UI: [http://your-nas-ip:9003/admin](http://your-nas-ip:9003/admin)
 * Default login password: `change-me` (set via `WEBPASSWORD`)
 
+## Health Check
+
+The service includes automatic health monitoring:
+
+- **Method**: DNS service status verification using `pihole status`
+- **Interval**: 1 minute
+- **Timeout**: 30 seconds
+- **Retries**: 3 attempts
+
 ## Notes
 
-* The container runs in `host` mode to function properly as a DNS server.
-* Make sure port `53` (DNS) is not used by other services on your NAS.
-* It's recommended to assign a static IP to your NAS and use it as the primary DNS on your devices or router.
-* Change the default `WEBPASSWORD` before going live.
+- The container runs in `host` mode to function properly as a DNS server.
+- Make sure port `53` (DNS) is not used by other services on your NAS.
+- It's recommended to assign a static IP to your NAS and use it as the primary DNS on your devices or router.
+- Change the default `WEBPASSWORD` before going live.
+- Health checks provide automatic monitoring and recovery.
 
 ---
 
-Block ads and gain full control over your DNS traffic with Pi-hole on Synology! 🛡️🧠
+Block ads and gain full control over your DNS traffic with Pi-hole on Synology!

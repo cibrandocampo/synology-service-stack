@@ -1,9 +1,10 @@
-version: "3"
+version: "3.8"
 
 services:
   vaultwarden:
     image: vaultwarden/server:${VAULTWARDEN_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_vaultwarden
+    init: true
     restart: unless-stopped
     networks:
       - vaultwarden
@@ -13,6 +14,12 @@ services:
       TZ: "${TZ:-UTC}"
     volumes:
       - vaultwarden-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/alive"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 2m
 
 volumes:
   vaultwarden-data:

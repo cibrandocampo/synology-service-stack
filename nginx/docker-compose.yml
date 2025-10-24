@@ -1,8 +1,9 @@
-version: "3"
+version: "3.8"
 services:
   webserver:
     image: nginx:${NGINX_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_nginx
+    init: true
     restart: always
     networks:
       - nginx
@@ -10,6 +11,12 @@ services:
       - "${NGINX_HTTP_PORT:-8080}:80/tcp"
     volumes:
       - nginx-data:/usr/share/nginx/html
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   nginx-data:
