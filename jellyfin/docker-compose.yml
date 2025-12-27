@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:${JELLYFIN_VERSION:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME:-jellyfin}
+    restart: unless-stopped
+    init: true
+
+    # Published ports on the NAS
+    ports:
+      - "${JELLYFIN_HTTP_PORT}:8096"
+      - "${JELLYFIN_HTTPS_PORT}:8920"
+
+    # Bind Synology folders to container paths
+    volumes:
+      - "${JELLYFIN_CONFIG}:/config"
+      - "${JELLYFIN_CACHE}:/cache"
+      - "${MEDIA_ROOT}:/media"
+
+    # Grant access to the GPU (Intel QuickSync / VAAPI)
+    devices:
+      - /dev/dri:/dev/dri
+
+    environment:
+      - TZ=${TZ}
+      - JELLYFIN_PublishedServerUrl=${JELLYFIN_PUBLISHED_URL}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8096/health"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 2m

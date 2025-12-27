@@ -25,6 +25,7 @@ All services are modular and include:
 | **Pi-hole**           | Network-wide DNS filtering and ad blocking.                    | [`pihole`](./pihole) |
 | **OVH DynDNS Client** | Public IP updater for OVH-managed DNS domains.                 | [`dyndns`](./dyndns) |
 | **Vaultwarden**         | Lightweight alternative to Bitwarden for password management. | [`vaultwarden`](./vaultwarden) |
+| **Jellyfin**            | Self-hosted media server for movies, TV shows, and music.     | [`jellyfin`](./jellyfin) |
 
 ---
 
@@ -39,6 +40,7 @@ All services are modular and include:
 | **Vaultwarden** | 9010 | Password manager |
 | **OpenSpeedTest** | 9004 (HTTP), 9005 (HTTPS) | Network speed testing |
 | **OVH DynDNS** | N/A | Background service |
+| **Jellyfin** | 8096 (HTTP), 8920 (HTTPS) | Media server |
 
 ## How to Use (on Synology)
 
@@ -64,6 +66,7 @@ synology-service-stack/
 ├── unifi/
 ├── vaultwarden/
 ├── wordpress/
+├── jellyfin/
 └── README.md
 ```
 
@@ -80,6 +83,7 @@ All services include health checks for reliable monitoring:
 - **Vaultwarden**: Dedicated `/alive` endpoint
 - **OpenSpeedTest**: HTTP service verification
 - **DynDNS**: Configuration file verification
+- **Jellyfin**: Health endpoint verification
 
 ## Security Features
 

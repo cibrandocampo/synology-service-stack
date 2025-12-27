@@ -6,7 +6,7 @@ services:
     init: true
     networks:
       - speedtest
-    restart: always
+    restart: unless-stopped
     environment:
       TZ: "${TZ:-UTC}"
     ports:

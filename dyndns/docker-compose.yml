@@ -5,7 +5,7 @@ services:
     image: cibrandocampo/ovh-dyndns-client:${DOCKER_OVH_VERSION:-stable}
     container_name: ${COMPOSE_PROJECT_NAME}_dyndns-client
     init: true
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     networks:

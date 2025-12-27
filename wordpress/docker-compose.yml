@@ -4,6 +4,7 @@ services:
     mariadb:
         image: mariadb:${MARIADB_VERSION:-latest}
         container_name: ${COMPOSE_PROJECT_NAME}_mariadb
+        restart: unless-stopped
         networks:
             - wordpress
         volumes:
@@ -19,6 +20,7 @@ services:
         depends_on:
             - mariadb
         init: true
+        restart: unless-stopped
         networks:
             - wordpress
         volumes:
