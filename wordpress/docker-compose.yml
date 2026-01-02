@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
     mariadb:
-        image: mariadb:${MARIADB_VERSION:-latest}
+        image: mariadb:${MARIADB_VERSION:-lts}
         container_name: ${COMPOSE_PROJECT_NAME}_mariadb
         restart: unless-stopped
         networks:
