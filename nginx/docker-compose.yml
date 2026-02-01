@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   webserver:
     image: nginx:${NGINX_VERSION:-latest}

@@ -1,0 +1,48 @@
+services:
+  video-enhancer:
+    image: cibrandocampo/synology-photos-video-enhancer:${DOCKER_VERSION:-stable}
+    container_name: ${COMPOSE_PROJECT_NAME:-photo-video-enhancer}_app
+    init: true
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - video-enhancer
+    volumes:
+      # ============================================
+      # PHOTO DIRECTORIES - MUST BE MODIFIED
+      # ============================================
+
+      # 1. Common photos folder (shared by all users)
+      #    Modify the path according to your Synology configuration
+      #    If you don't have a common folder, delete this line
+      - /volume1/photo:${MEDIA_APP_PATH:-/media}/photos:rw
+
+      # 2. Individual user photo folders
+      #    Replace user1, user2, etc. with actual Synology usernames
+      #    Add or remove lines according to the number of users
+      - /volume1/homes/user1/Photos:${MEDIA_APP_PATH:-/media}/user1:rw
+      - /volume1/homes/user2/Photos:${MEDIA_APP_PATH:-/media}/user2:rw
+      #    To add more users, copy this line and replace USERNAME:
+      #    - /volume1/homes/USERNAME/Photos:${MEDIA_APP_PATH:-/media}/USERNAME:rw
+
+      # ============================================
+      # DATABASE - NO NEED TO MODIFY
+      # ============================================
+      - video-enhancer-data:/app/data
+
+    # Hardware acceleration (VAAPI/QSV for Intel, VAAPI for AMD)
+    devices:
+      - /dev/dri:/dev/dri
+
+volumes:
+  video-enhancer-data:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "${DATABASE_HOST_PATH}"
+
+networks:
+  video-enhancer:
+    driver: bridge

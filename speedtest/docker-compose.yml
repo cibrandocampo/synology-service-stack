@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   speedtest:
     image: openspeedtest/latest:${OPENSPEEDTEST_VERSION:-latest}
