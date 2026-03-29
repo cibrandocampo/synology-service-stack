@@ -27,12 +27,12 @@ services:
       DB_NAME: "unifi"
       UNIFI_HTTP_PORT: "${UNIFI_HTTP_PORT:-9001}"
       UNIFI_HTTPS_PORT: "${UNIFI_HTTPS_PORT:-9002}"
+      SYSTEM_IP: "${SYSTEM_IP}"
       TZ: "${TZ:-UTC}"
     ports:
       - "3478:3478/udp"    # STUN service
       - "5514:5514/udp"    # Remote syslog capture
       - "6789:6789/tcp"    # UniFi mobile speed test
-      - "8080:8080/tcp"    # Device & application communication
       - "10001:10001/udp"  # Device discovery
       - "${UNIFI_HTTP_PORT:-9001}:${UNIFI_HTTP_PORT:-9001}/tcp"
       - "${UNIFI_HTTPS_PORT:-9002}:${UNIFI_HTTPS_PORT:-9002}/tcp"
