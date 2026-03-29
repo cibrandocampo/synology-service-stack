@@ -66,8 +66,15 @@ Once deployed, access your WordPress site at:
 
 ## Health Check
 
-The service includes automatic health monitoring:
+Both services include automatic health monitoring:
 
+**MariaDB**
+- **Method**: Built-in `healthcheck.sh --connect --innodb_initialized`
+- **Interval**: 30 seconds
+- **Timeout**: 10 seconds
+- **Retries**: 3 attempts
+
+**WordPress** (starts only after MariaDB is healthy)
 - **Method**: WordPress login page verification using `curl -f http://localhost/wp-login.php`
 - **Interval**: 1 minute
 - **Timeout**: 30 seconds

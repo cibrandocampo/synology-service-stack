@@ -19,7 +19,7 @@ All environment variables are defined in the `.env.example` file. Copy it to `.e
 COMPOSE_PROJECT_NAME=network-dns
 
 # Docker image version
-PIHOLE_VERSION=2025.06.2
+PIHOLE_VERSION=2026.02.0
 
 # Pi-hole configuration
 FTLCONF_LOCAL_IPV4=10.70.2.20
