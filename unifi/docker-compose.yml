@@ -8,12 +8,19 @@ services:
     volumes:
       - unifi-db-data:/data/db
       - unifi-db-config:/data/configdb
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   controller:
     image: jacobalberty/unifi:${UNIFI_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME:-unifi}_controller
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     init: true  # Ensures proper handling of PID 1 processes
     networks:
       - unifi

@@ -74,6 +74,22 @@ Once the stack is running, devices that have already been adopted with a differe
 set-inform http://<SYSTEM_IP>:9001/inform
 ```
 
+## Health Check
+
+Both services include automatic health monitoring:
+
+**MongoDB**
+- **Method**: `mongo --eval "db.adminCommand('ping')"`
+- **Interval**: 30 seconds
+- **Timeout**: 10 seconds
+- **Retries**: 3 attempts
+
+**UniFi Controller** (starts only after MongoDB is healthy)
+- **Method**: HTTP check against `http://localhost:<UNIFI_HTTP_PORT>/`
+- **Interval**: 2 minutes
+- **Timeout**: 30 seconds
+- **Retries**: 3 attempts
+
 ## Notes
 
 * Make sure ports 10001/UDP, 3478/UDP, etc. are not in use by other services.
