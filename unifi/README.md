@@ -19,9 +19,10 @@ COMPOSE_PROJECT_NAME=network-infra
 
 # Docker image versions
 MONGO_VERSION=4.4
-UNIFI_VERSION=v9.0
+UNIFI_VERSION=v10
 
-# UniFi ports
+# UniFi config
+SYSTEM_IP=192.168.1.x
 UNIFI_HTTP_PORT=9001
 UNIFI_HTTPS_PORT=9002
 TZ=Europe/Madrid
@@ -30,7 +31,7 @@ TZ=Europe/Madrid
 UNIFI_DB_DATA_VOLUME_PATH=/volume1/docker/network/infra/volumes/unifi-db-data
 UNIFI_DB_CONFIG_VOLUME_PATH=/volume1/docker/network/infra/volumes/unifi-db-config
 UNIFI_VOLUME_PATH=/volume1/docker/network/infra/volumes/unifi-data
-````
+```
 
 > ⚠️ Note: MongoDB 5.0+ requires a CPU with AVX support. Use version 4.4 if your Synology does not support AVX.
 
@@ -61,9 +62,21 @@ UNIFI_VOLUME_PATH=/volume1/docker/network/infra/volumes/unifi-data
 * Web interface (HTTP): [http://your-nas-ip:9001](http://your-nas-ip:9001)
 * Web interface (HTTPS): [https://your-nas-ip:9002](https://your-nas-ip:9002)
 
+## Device adoption
+
+When running in bridge network mode (the default), the controller must know its own external IP so it can advertise the correct inform URL to devices. Set `SYSTEM_IP` to the NAS IP address in your `.env` file.
+
+Without this, the controller advertises its internal Docker IP (e.g. `172.x.x.x`) to devices, which they cannot reach from the LAN.
+
+Once the stack is running, devices that have already been adopted with a different inform URL must be re-pointed manually via SSH:
+
+```bash
+set-inform http://<SYSTEM_IP>:9001/inform
+```
+
 ## Notes
 
-* Make sure ports 8080, 10001/UDP, 3478/UDP, etc. are not in use by other services.
+* Make sure ports 10001/UDP, 3478/UDP, etc. are not in use by other services.
 * For optimal compatibility with UniFi devices, leave the exposed ports as defined unless you know what you're doing.
 * The volumes ensure persistence of MongoDB data and UniFi configuration between reboots or updates.
 
